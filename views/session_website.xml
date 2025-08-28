@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+
+    <record id="menu_session" model="website.menu">
+        <field name="name">Session</field>
+        <field name="url">/my/session</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence" type="int">10</field>
+    </record>
+
+     <template id="session_form" name="Course Registration Form">
+            <t t-call="website.layout">
+                <div class="container mt-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-8">
+                            <div class="card shadow-sm rounded">
+                                <div class="card-body">
+                                    <h2 class="card-title text-center mb-4">Session</h2>
+                                    <form action="/my/session" method="post">
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <label for="session_name">Full Name</label>
+                                                <input type="text" name="session_name" id="session_name" class="form-control mb-3" required="required"/>
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary btn-block w-100">Submit</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+
+        <template id="template_thank_you" name="Thank You">
+            <t t-call="website.layout">
+                <div class="container mt16">
+                    <h1>Thank you for your registration!</h1>
+                    <p>Your registration has been successfully submitted. We will contact you shortly.</p>
+                </div>
+            </t>
+        </template>
+
+
+</odoo>

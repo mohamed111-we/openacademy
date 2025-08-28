@@ -14,13 +14,14 @@
     'author': 'Arafa',
     'website': 'https://www.yourcompany.com',
     'category': 'Education',
-    'depends': ['base', 'mail'],
+    'depends': ['base', 'mail', 'website'],
     'data': [
         'security/res_groups.xml',
         'security/ir.model.access.csv',
         'views/openacademy_course_views.xml',
         'views/openacademy_session_views.xml',
         'views/partner_id_view.xml',
+        'views/session_website.xml',
         'wizard/openacademy_wizard.xml',
         'reports/paperformat.xml',
         'reports/reports.xml',
@@ -28,6 +29,12 @@
         'reports/sale_qweb_template.xml',
         # 'reports/header_footer.xml',
     ],
+    'assets': {
+        'web.assets_backend': [
+            'openacademy/static/src/css/style.css',
+        ],
+    },
+
     'demo': [],
     'installable': True,
     'application': True,

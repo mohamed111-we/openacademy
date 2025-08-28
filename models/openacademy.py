@@ -99,7 +99,6 @@ class Session(models.Model):
         'openacademy.course',
         string='Course',
         ondelete='restrict',
-        required=True,
         tracking=True
     )
 
@@ -107,7 +106,6 @@ class Session(models.Model):
         "res.partner",
         string="Instructor",
         domain=[('phone', '!=', False)],
-        required=True,
         tracking=True
     )
 
