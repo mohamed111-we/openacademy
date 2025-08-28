@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="report_session" model="ir.actions.report">
+        <field name="name">Session Report</field>
+        <field name="model">openacademy.session</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">openacademy.report_session_view</field>
+        <field name="report_file">openacademy.report_session_view</field>
+        <field name="print_report_name">'Session Report'</field>
+        <field name="binding_model_id" ref="model_openacademy_session"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="openacademy.paperformat_openacademy_session"/>
+    </record>
+
+    <template id="report_session_view">
+        <t t-call="web.html_container">
+            <!--left To Right-->
+            <t t-set="rtl" t-value="docs and docs[0].env.lang == 'ar_001'"/>
+            <t t-foreach="docs" t-as="o">
+                <div class="article o_report_layout_standard" t-att-data-oe-model="doc and doc._name"
+                     t-att-data-oe-id="doc and doc.id">
+                    <t t-call="openacademy.custom_session_header_footer"/>
+                    <div class="page" style="font-family: Arial, sans-serif; padding: 25px; border: 2px solid #2c3e50;"
+                         t-att-style="'direction: %s;' % ('rtl' if rtl else 'ltr')"> <!--left To Right-->
+
+                        <!-- Company Header -->
+                        <div style="display: flex; direction: ltr; margin-bottom: 20px;">
+                            <!-- Logo on left -->
+                            <div style="flex: 0 0 auto; margin-right: 20px;">
+                                <img t-att-src="o.env.company.logo" style="height: 80px;"/>
+                            </div>
+
+                            <!-- Company info on right -->
+                            <div style="flex: 1; direction: rtl;">
+                                <!-- Company name in first line -->
+                                <h2 style="font-size: 20pt; color: #2E86C1; margin: 0 0 5px 0; text-align: right;">
+                                    <t t-esc="o.env.company.name"/>
+                                </h2>
+                            </div>
+                        </div>
+
+                        <!-- User Info -->
+                        <div style="margin-bottom: 20px; text-align: right; font-size: 14pt; color: #34495e;">
+                            <p>
+                                <span>User Name:</span>
+                                <t t-esc="o.env.user.name"/>
+                            </p>
+                            <p>
+                                <span>User Email:</span>
+                                <t t-esc="o.env.user.email"/>
+                            </p>
+                        </div>
+
+
+                        <h1 style="text-align:center; color: #2c3e50; font-size: 30px; text-transform: uppercase; margin-bottom: 20px; border-bottom: 2px solid #2c3e50; padding-bottom: 10px;">
+                            Session Report
+                        </h1>
+
+                        <h2 style="margin-top: 30px; font-size: 20px; color:#34495e;">
+                            <span style="font-weight: bold;">Session Name :</span>
+                            <span style="color: #16a085; margin-left: 10px;">
+                                <t t-esc="o.session_name"/>
+                            </span>
+                        </h2>
+
+                        <!-- التاريخ -->
+                        <table style="margin-top:19px; width: 49%; border-collapse: collapse; font-size:15px;">
+                            <tr>
+                                <td style="font-weight:bold; color:#34495e; padding:5px;">From:</td>
+                                <td style="color:#2980b9; padding:5px;">
+                                    <t t-esc="o.start_date"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight:bold; color:#34495e; padding:5px;">To:</td>
+                                <td style="color:#c0392b; padding:5px;">
+                                    <t t-esc="o.end_date"/>
+                                </td>
+                            </tr>
+                        </table>
+
+
+                        <!-- جدول الحضور -->
+                        <table style="width:100%; border-collapse: collapse; margin-top: 30px; font-size: 14px;">
+                            <thead>
+                                <tr style="background-color:#2c3e50; color:#fff; text-align:center;">
+                                    <th style="padding: 10px; border: 1px solid #ddd;">Name</th>
+                                    <th style="padding: 10px; border: 1px solid #ddd;">Email</th>
+                                    <th style="padding: 10px; border: 1px solid #ddd;">Phone</th>
+                                    <th style="padding: 10px; border: 1px solid #ddd;">Country</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.attendees_ids" t-as="attendee" style="text-align:center;">
+                                    <td style="padding: 8px; border: 1px solid #ddd;">
+                                        <span t-esc="attendee.name"/>
+                                    </td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">
+                                        <span t-esc="attendee.email"/>
+                                    </td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">
+                                        <span t-esc="attendee.phone"/>
+                                    </td>
+                                    <td style="padding: 8px; border: 1px solid #ddd;">
+                                        <span t-esc="attendee.country_id.name"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <!-- Footer -->
+                        <div style="margin-top: 50px; text-align: center; font-size: 10pt; color: #555;">
+                            <p>
+                                <t t-if="o.env.company.city">--
+                                    <t t-esc="o.env.company.city"/>
+                                </t>
+                            </p>
+                            <p t-if="o.env.company.street">
+                                <t t-esc="o.env.company.street"/>
+                            </p>
+                            <p style="color: #2E86C1;">فاكس٢٢٦٨٣٧٦٨ (+٢.٢) داخلي:٤٧٧٤٣/٤٧٧١٤</p>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

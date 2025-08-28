@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--=====================Sale=========================-->
+
+    <template id="report_saleorder_document_inherit" inherit_id="sale.report_saleorder_document">
+        <xpath expr="//div[@class='row mb-4']" position="after">
+            <div style="margin-top:20px; font-weight:bold; color:red; font-size:16px;">
+                ⚠️ هذا المستند للاطلاع فقط ولا يُعتبر فاتورة رسمية
+            </div>
+        </xpath>
+
+
+        <xpath expr="//table[hasclass('o_has_total_table')]/thead/tr/th[@name='th_description']" position="after">
+            <th name="th_notice" style="font-weight:bold; color:red;">
+                ملاحظات هامة
+            </th>
+        </xpath>
+
+
+        <xpath expr="//t[@t-set='information_block']" position="before">
+            <div style="text-align:center; font-weight:bold; font-size:14px; margin-bottom:10px; color:red;">
+                <p>*** هذه رسالة تجريبية قبل العنوان ***</p>
+            </div>
+        </xpath>
+
+
+        <xpath expr="//t/div[@class='page']/table/thead/tr/th[last()]" position="after">
+            <th name="th_mohamed"
+                style="text-align:center; font-weight:bold; color:red;">
+                <span>محمد</span>
+            </th>
+        </xpath>
+
+        <xpath expr="//t/div[hasclass('page')]/table/thead/tr/th[2]" position="after">
+            <th name="th_quantity" class="text-right"
+                style="text-align:center; font-weight:bold; color:red;">
+                Quantity Delivered
+            </th>
+            <th name="th_quantity" class="text-right"
+                style="text-align:center; font-weight:bold; color:red;">
+                Quantity Invoiced
+            </th>
+        </xpath>
+
+        <xpath expr="//t/div[hasclass('page')]/table/tbody/t/tr/t/td[2]" position="after">
+            <td name="td_quantity" class="text-right">
+                <span t-field="line.qty_delivered"/>
+                <span t-field="line.product_uom" groups="uom.group_uom"/>
+            </td>
+            <td name="td_quantity" class="text-right">
+                <span t-field="line.qty_invoiced"/>
+                <span t-field="line.product_uom" groups="uom.group_uom"/>
+            </td>
+        </xpath>
+    </template>
+
+
+    <!--=====================Purchase=========================-->
+
+    <template id="session_report_purchaseorder_inherit" inherit_id="purchase.report_purchaseorder_document">
+        <xpath expr="//t/div[@class='page']/div[@class='row mb-4']/div[@class='col']" position="after">
+            <strong style="text-align:right; font-weight:bold; color:red;">Mohamed From Session</strong>
+        </xpath>
+
+        <xpath expr="//t/div[@class='page']/strong" position="after">
+            <div style="width:100%; text-align:right;">
+                <strong style="color:red;">Mohamed From Session</strong>
+            </div>
+        </xpath>
+
+        <!-- Footer -->
+        <xpath expr="//t/div[@class='page']/div[@class='text-center']" position="after">
+            <div style="margin-top: 50px; text-align: center; font-size: 10pt;">
+                <p>
+                    <t t-esc="o.company_id.name or company.name"/>
+                    <t t-if="o.company_id.city">--
+                        <t t-esc="o.company_id.city"/>
+                    </t>
+                </p>
+                <p t-if="o.company_id.street">
+                    <t t-esc="o.company_id.street"/>
+                </p>
+                <p t-else="">
+                    لم يتم ضبط عنوان الشركة، برجاء مراجعة مدير النظام.
+                </p>
+                <p>
+                    فاكس٢٢٦٨٣٧٦٨ (+٢.٢) داخلي:٤٧٧٤٣/٤٧٧١٤
+                </p>
+            </div>
+        </xpath>
+    </template>
+
+    <!--=====================Point of Sale=========================-->
+
+</odoo>

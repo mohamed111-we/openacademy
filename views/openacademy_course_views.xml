@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--    decoration-danger=""-->
+    <!--    decoration-info=""-->
+    <!--    decoration-muted=""-->
+
+    <!-- Tree (List) View -->
+    <record id="view_openacademy_course_tree" model="ir.ui.view">
+        <field name="name">openacademy.course.tree</field>
+        <field name="model">openacademy.course</field>
+        <field name="arch" type="xml">
+            <list string="Course" decoration-danger="">
+                <field name="course_name"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_openacademy_course_form" model="ir.ui.view">
+        <field name="name">openacademy.course.form</field>
+        <field name="model">openacademy.course</field>
+        <field name="arch" type="xml">
+            <form string="Course">
+                <header>
+
+                    <button name="action_test" string="Test" type="object" class="oe_highlight" title="Mark as won"/>
+
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="course_name"/>
+                        <h1>
+                            <field name="course_name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="responsible_id"/>
+                    </group>
+                    <group string="General">
+                        <field name="description" placeholder="Put The Description For the Course"/>
+                    </group>
+                    <notebook>
+                        <page string="Sessions">
+                            <field name="session_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="session_name"/>
+                                    <field name="start_date"/>
+                                    <field name="session_duration"/>
+                                    <field name="seats"/>
+                                    <field name="instructor_id"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record model="ir.ui.view" id="course_search_view">
+        <field name="name">course.search</field>
+        <field name="model">openacademy.course</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="course_name"/>
+                <field name="description"/>
+
+                <!-- filter -->
+                <filter name="my_courses_by_user_id" string="My Courses" domain="[('responsible_id', '=', uid)]"/>
+
+                <!-- Group By -->
+                <group string="Group By">
+                    <filter name="by_responsible" string="Responsible" context="{'group_by': 'responsible_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_openacademy_course" model="ir.actions.act_window">
+        <field name="name">Courses</field>
+        <field name="res_model">openacademy.course</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new ....
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="menu_openacademy_root" name="Open Academy"/>
+
+    <menuitem id="menu_openacademy" name="Open Academy" parent="menu_openacademy_root"/>
+
+    <menuitem id="menu_openacademy_course" name="Courses" parent="menu_openacademy" action="action_openacademy_course"/>
+
+</odoo>
